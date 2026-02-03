@@ -117,6 +117,11 @@ Host dev-vm
   StrictHostKeyChecking no
   UserKnownHostsFile /dev/null
 
+EOF
+
+if [ -n "${staging_boundary_ip}" ]; then
+cat >> /mnt/semaphore-data/ssh/config << EOF
+
 # STAGING ENVIRONMENT
 Host staging-boundary
   HostName ${staging_boundary_ip}
@@ -132,6 +137,11 @@ Host staging-vm
   ProxyJump staging-boundary
   StrictHostKeyChecking no
   UserKnownHostsFile /dev/null
+EOF
+fi
+
+if [ -n "${prod_boundary_ip}" ]; then
+cat >> /mnt/semaphore-data/ssh/config << EOF
 
 # PROD ENVIRONMENT
 Host prod-boundary
@@ -148,8 +158,9 @@ Host prod-vm
   ProxyJump prod-boundary
   StrictHostKeyChecking no
   UserKnownHostsFile /dev/null
-
 EOF
+fi
+
 chown 1001:1001 /mnt/semaphore-data/ssh/config
 chmod 644 /mnt/semaphore-data/ssh/config
 
