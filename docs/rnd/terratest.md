@@ -5,14 +5,14 @@ This repository uses **Terratest** (Go library) to validate Terraform infrastruc
 ## Directory Structure
 Tests are located within the `test/` directory of each environment or module.
 
-``text
+```text
 terraform/
 ├── environments/
 │   └── staging/
 │       ├── main.tf
 │       └── test/
 │           └── main_test.go  <-- Test definition
-``
+```
 
 ## Prerequisites
 - **Go:** Version 1.18+
@@ -22,29 +22,29 @@ terraform/
 
 ### 1. Initialize Module
 Navigate to the test directory:
-``bash
+```bash
 cd terraform/environments/staging/test
-``
+```
 
 ### 2. Initialize Go Module (First Run)
 If `go.mod` is missing:
-``bash
+```bash
 go mod init staging-test
 go get github.com/gruntwork-io/terratest/modules/terraform
 go get github.com/stretchr/testify/assert
-``
+```
 
 ### 3. Execute Tests
 Run the Go test. The `-v` flag provides verbose output (Terraform logs).
-``bash
+```bash
 go test -v -timeout 30m
-``
+```
 
 > **Warning:** This will create real resources in your cloud provider and incur costs. The test includes a `defer TerraformDestroy` function to clean up resources automatically after the test finishes, even if it fails.
 
 ## Example Test Code (`main_test.go`)
 
-``go
+```go
 package test
 
 import (
@@ -78,4 +78,4 @@ func TestTerraformStaging(t *testing.T) {
 	// Verify we got a valid IP address
 	assert.NotEmpty(t, vmIP)
 }
-``
+```
